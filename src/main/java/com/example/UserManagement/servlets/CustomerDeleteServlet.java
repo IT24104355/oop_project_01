@@ -1,6 +1,6 @@
-package com.example.servlets;
+package com.example.UserManagement.servlets;
 
-import com.example.models.Customer;
+import com.example.UserManagement.models.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ public class CustomerDeleteServlet extends HttpServlet {
         Customer currentCustomer = (Customer) session.getAttribute("customer");
 
         if (currentCustomer == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("user_login.jsp");
             return;
         }
 
@@ -29,6 +29,6 @@ public class CustomerDeleteServlet extends HttpServlet {
         FileHandler.updateCustomers(customers);
 
         session.invalidate();
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("user_login.jsp");
     }
 }

@@ -1,6 +1,6 @@
-package com.example.servlets;
+package com.example.UserManagement.servlets;
 
-import com.example.models.Customer;
+import com.example.UserManagement.models.Customer;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

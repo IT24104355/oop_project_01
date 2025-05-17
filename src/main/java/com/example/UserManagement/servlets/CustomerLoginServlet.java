@@ -1,6 +1,6 @@
-package com.example.servlets;
+package com.example.UserManagement.servlets;
 
-import com.example.models.Customer;
+import com.example.UserManagement.models.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +19,7 @@ public class CustomerLoginServlet extends HttpServlet {
         // Basic validation
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             request.setAttribute("error", "Username and password are required");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("user_login.jsp").forward(request, response);
             return;
         }
 
@@ -28,15 +28,15 @@ public class CustomerLoginServlet extends HttpServlet {
             if (customer.getUsername().equals(username) && customer.getPassword().equals(password)) {
                 HttpSession session = request.getSession();
                 session.setAttribute("customer", customer);
-                response.sendRedirect("profile.jsp");
+                response.sendRedirect("user_profile.jsp");
                 return;
             }
         }
         request.setAttribute("error", "Invalid username or password");
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("user_login.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("user_login.jsp").forward(request, response);
     }
 }

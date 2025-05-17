@@ -1,4 +1,4 @@
-package com.example.models;
+package com.example.UserManagement.models;
 
 public class Customer {
     private int customerId;

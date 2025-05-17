@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrimeTable - Login</title>
+    <title>Customer Registration - PrimeTable</title>
     <style>
         /* Consistent color palette */
         :root {
@@ -31,17 +31,17 @@
             align-items: center;
             min-height: 100vh;
             background-image: linear-gradient(rgba(26, 46, 53, 0.7), rgba(26, 46, 53, 0.7)),
-            url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
         }
 
-        .login-container {
+        .register-container {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             padding: 2.5rem;
             text-align: center;
         }
@@ -64,7 +64,7 @@
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             text-align: left;
         }
 
@@ -73,6 +73,7 @@
             margin-bottom: 0.5rem;
             color: var(--primary);
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .form-group input {
@@ -90,9 +91,10 @@
         }
 
         .error-message {
-            color: #ff4444;
-            margin-bottom: 1rem;
+            color: #e53e3e;
             font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
         }
 
         .btn {
@@ -113,23 +115,24 @@
             background-color: #c56a20;
         }
 
-        .register-link {
-            margin-top: 2rem;
+        .login-link {
+            margin-top: 1.5rem;
             color: var(--primary);
+            font-size: 0.9rem;
         }
 
-        .register-link a {
+        .login-link a {
             color: var(--secondary);
             text-decoration: none;
             font-weight: 600;
         }
 
-        .register-link a:hover {
+        .login-link a:hover {
             text-decoration: underline;
         }
 
         @media (max-width: 480px) {
-            .login-container {
+            .register-container {
                 padding: 2rem 1.5rem;
                 margin: 0 1rem;
             }
@@ -137,25 +140,37 @@
     </style>
 </head>
 <body>
-<div class="login-container">
+<div class="register-container">
     <div class="logo">Prime<span>Table</span></div>
-    <h1>Login to Your Account</h1>
+    <h1>Customer Registration</h1>
     <% if (request.getAttribute("error") != null) { %>
     <p class="error-message"><%= request.getAttribute("error") %></p>
     <% } %>
-    <form action="login" method="post">
+    <form action="register" method="post">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Create a password" required>
         </div>
-        <button type="submit" class="btn">Login</button>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        </div>
+        <button type="submit" class="btn">Register</button>
     </form>
-    <div class="register-link">
-        Don't have an account? <a href="register.jsp">Register here</a>
+    <div class="login-link">
+        Already have an account? <a href="user_login.jsp">Login here</a>
     </div>
 </div>
 </body>

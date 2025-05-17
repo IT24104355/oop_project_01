@@ -1,6 +1,6 @@
-package com.example.servlets;
+package com.example.UserManagement.servlets;
 
-import com.example.models.Customer;
+import com.example.UserManagement.models.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +23,7 @@ public class CustomerRegistrationServlet extends HttpServlet {
                 email == null || email.isEmpty() || fullName == null || fullName.isEmpty() ||
                 phone == null || phone.isEmpty()) {
             request.setAttribute("error", "All fields are required");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("user_register.jsp").forward(request, response);
             return;
         }
 
@@ -32,17 +32,17 @@ public class CustomerRegistrationServlet extends HttpServlet {
         boolean usernameExists = customers.stream().anyMatch(c -> c.getUsername().equals(username));
         if (usernameExists) {
             request.setAttribute("error", "Username already exists");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("user_register.jsp").forward(request, response);
             return;
         }
 
         Customer customer = new Customer(0, username, password, email, fullName, phone);
         FileHandler.saveCustomer(customer);
 
-        response.sendRedirect("registration_success.jsp");
+        response.sendRedirect("user_registration_success.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("user_register.jsp").forward(request, response);
     }
 }

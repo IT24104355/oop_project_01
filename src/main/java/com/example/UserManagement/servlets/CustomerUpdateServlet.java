@@ -1,6 +1,6 @@
-package com.example.servlets;
+package com.example.UserManagement.servlets;
 
-import com.example.models.Customer;
+import com.example.UserManagement.models.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ public class CustomerUpdateServlet extends HttpServlet {
         Customer currentCustomer = (Customer) session.getAttribute("customer");
 
         if (currentCustomer == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("user_login.jsp");
             return;
         }
 
@@ -29,7 +29,7 @@ public class CustomerUpdateServlet extends HttpServlet {
         // Basic validation
         if (email == null || email.isEmpty() || fullName == null || fullName.isEmpty() || phone == null || phone.isEmpty()) {
             request.setAttribute("error", "Email, full name, and phone are required");
-            request.getRequestDispatcher("profile.jsp").forward(request, response);
+            request.getRequestDispatcher("user_profile.jsp").forward(request, response);
             return;
         }
 
@@ -49,6 +49,6 @@ public class CustomerUpdateServlet extends HttpServlet {
         session.setAttribute("customer", customers.stream()
                 .filter(c -> c.getCustomerId() == currentCustomer.getCustomerId())
                 .findFirst().orElse(currentCustomer));
-        response.sendRedirect("profile.jsp");
+        response.sendRedirect("user_profile.jsp");
     }
 }

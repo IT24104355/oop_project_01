@@ -265,11 +265,7 @@
         <div class="logo">Prime<span>Table</span></div>
         <div class="nav-links">
             <a href="index.jsp">Home</a>
-            <a href="userInterfase.jsp">Tables</a>
-            <a href="my_reservation_page.jsp">Reservations</a>
-            <a href="inquiry.jsp" class="active">Inquiries</a>
-            <a href="paymentForm.jsp">Payments</a>
-            <a href="login.jsp">Login </a>
+            <a href="user_login.jsp">Login </a>
             <a href="admin_page.jsp">Admin Info</a>
         </div>
     </nav>

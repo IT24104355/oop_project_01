@@ -1,2 +1,6 @@
 1,thamidu,thamidu190,thamidu@gmail.com,thamidu wijesinghe,123456
 2,dasuni,123,dasuni@gmail.com,Dasuni Premawardana,15273e
+3,Kaushalya,123,kaushalya@gmail.com,Kushh,09857
+4,Dasuni,1234,Dasuni@gmail.com,Dasuni,Thiwanshika
+5,User01,12345,user01@gmail.com,User,0777800899
+6,User02,12345,user02@gmail.com,User2,0777800899
