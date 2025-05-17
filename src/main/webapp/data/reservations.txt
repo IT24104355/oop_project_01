@@ -1,0 +1,4 @@
+1,5,1,2025-05-03 12:39,confirmed,Individual
+2,2,1,2025-05-05 14:39,confirmed,Individual
+3,1,1,2025-05-02 14:43,confirmed,Individual
+4,1,2,2025-05-20 09:31,confirmed,Individual
