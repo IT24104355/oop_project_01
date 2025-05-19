@@ -4,6 +4,7 @@ import com.example.UserManagement.models.Customer;
 import com.example.ReservationsManagement.Reservation;
 import com.example.ReservationsManagement.IndividualReservation;
 import com.example.ReservationsManagement.GroupReservation;
+import com.example.ReservationsManagement.ReservationQueue; // Import the new Queue
 import com.example.TableManagement.Table;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,6 +20,7 @@ import java.util.List;
 @WebServlet("/registerReservation")
 public class ReservationRegistrationServlet extends HttpServlet {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+    private static final ReservationQueue reservationQueue = new ReservationQueue(); // Static queue instance
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -78,15 +80,27 @@ public class ReservationRegistrationServlet extends HttpServlet {
             return;
         }
 
+        // Create reservation and add to queue
         Reservation reservation = "Group".equals(reservationType) ?
                 new GroupReservation(0, customerIdInt, tableIdInt, dateTime, status) :
                 new IndividualReservation(0, customerIdInt, tableIdInt, dateTime, status);
-        FileHandler.saveReservation(reservation);
+        reservationQueue.enqueue(reservation); // Add to queue instead of saving directly
+
+        // Optionally process the queue immediately (for simplicity in demo)
+        if (!reservationQueue.isEmpty()) {
+            Reservation queuedReservation = reservationQueue.dequeue();
+            FileHandler.saveReservation(queuedReservation);
+        }
 
         response.sendRedirect("reservation_success.jsp");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("reservation_register.jsp").forward(request, response);
+    }
+
+    // Method to view queue contents (for demonstration)
+    public static ReservationQueue getReservationQueue() {
+        return reservationQueue;
     }
 }

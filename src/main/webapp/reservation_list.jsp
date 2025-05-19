@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.ReservationsManagement.Reservation" %>
+<%@ page import="java.util.Arrays" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -251,10 +253,12 @@
       <div>
         <a href="registerReservation" class="btn btn-primary">Add New Reservation</a>
       </div>
+      <% Reservation[] reservations = (Reservation[]) request.getAttribute("reservations"); %>
+      <% if (reservations != null && reservations.length > 0) { %>
       <table class="table">
         <thead>
         <tr>
-          <th>ID</th>
+          <th>Reservation ID</th>
           <th>Customer ID</th>
           <th>Table ID</th>
           <th>Date & Time</th>
@@ -264,25 +268,28 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="reservation" items="${reservations}">
-          <tr>
-            <td>${reservation.reservationId}</td>
-            <td>${reservation.customerId}</td>
-            <td>${reservation.tableId}</td>
-            <td>${reservation.reservationDateTime}</td>
-            <td>${reservation.status}</td>
-            <td>${reservation.reservationType}</td>
-            <td>
-              <a href="reservation_update.jsp?reservationId=${reservation.reservationId}" class="btn btn-warning">Edit</a>
-              <form action="deleteReservation" method="post" style="display:inline;">
-                <input type="hidden" name="reservationId" value="${reservation.reservationId}">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this reservation?')">Delete</button>
-              </form>
-            </td>
-          </tr>
-        </c:forEach>
+        <% for (Reservation reservation : reservations) { %>
+        <tr>
+          <td><%= reservation.getReservationId() %></td>
+          <td><%= reservation.getCustomerId() %></td>
+          <td><%= reservation.getTableId() %></td>
+          <td><%= reservation.getReservationDateTime().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) %></td>
+          <td><%= reservation.getStatus() %></td>
+          <td><%= reservation.getReservationType() %></td>
+          <td>
+            <a href="reservation_update.jsp?reservationId=<%= reservation.getReservationId() %>" class="btn btn-warning">Edit</a>
+            <form action="deleteReservation" method="post" style="display:inline;">
+              <input type="hidden" name="reservationId" value="<%= reservation.getReservationId() %>">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this reservation?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% } %>
         </tbody>
       </table>
+      <% } else { %>
+      <p>No reservations found.</p>
+      <% } %>
     </div>
   </div>
 </div>
