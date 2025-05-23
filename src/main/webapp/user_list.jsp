@@ -1,17 +1,25 @@
 <%--
   Created by IntelliJ IDEA.
   User: DASUNI THIWANSHIKA
-  Date: 5/17/2025
-  Time: 12:21 PM
+  Date: 5/20/2025
+  Time: 4:20 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%--
+  Created by IntelliJ IDEA.
+  User: DASUNI THIWANSHIKA
+  Date: 5/20/2025
+  Time: 4:19 PM
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.example.UserManagement.models.Customer" %>
+<%@ page import="java.util.Arrays" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reservation Success</title>
+  <title>Customer List</title>
   <style>
     :root {
       --primary: #1a2e35;      /* Dark teal */
@@ -50,7 +58,7 @@
       border-radius: 8px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       width: 100%;
-      max-width: 600px;
+      max-width: 1000px;
       margin: 2rem auto;
       overflow: hidden;
     }
@@ -109,18 +117,23 @@
 
     .content-container {
       padding: 2.5rem;
-      text-align: center;
     }
 
     h2 {
       color: var(--primary);
       margin-bottom: 1.5rem;
       font-size: 1.5rem;
+      text-align: center;
     }
 
-    p {
-      color: var(--dark);
-      margin-bottom: 1.5rem;
+    .error-message {
+      color: #e74c3c;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 0.75rem;
+      background-color: #f8d7da;
+      border-radius: 4px;
     }
 
     .btn {
@@ -133,7 +146,7 @@
       transition: background-color 0.3s;
       text-decoration: none;
       display: inline-block;
-      margin: 0.5rem;
+      margin-bottom: 1rem;
     }
 
     .btn-primary {
@@ -145,13 +158,56 @@
       background-color: #c56a20;
     }
 
-    .btn-secondary {
-      background-color: var(--accent);
-      color: white;
+    .btn-warning {
+      background-color: #f1c40f;
+      color: var(--dark);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
     }
 
-    .btn-secondary:hover {
-      background-color: #4a7070;
+    .btn-warning:hover {
+      background-color: #d4ac0d;
+    }
+
+    .btn-danger {
+      background-color: #e74c3c;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-danger:hover {
+      background-color: #c0392b;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table th,
+    .table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .table th {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    .table tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .table tbody tr:hover {
+      background-color: var(--highlight);
     }
 
     @media (max-width: 480px) {
@@ -172,6 +228,15 @@
         font-size: 0.8rem;
         padding: 0.4rem;
       }
+
+      .table {
+        font-size: 0.9rem;
+      }
+
+      .table th,
+      .table td {
+        padding: 0.5rem;
+      }
     }
   </style>
 </head>
@@ -181,21 +246,58 @@
     <div class="logo">Prime<span>Table</span></div>
     <div class="nav-tabs">
       <ul>
-        <li><a href="reservation_register.jsp" class="active">Reservations</a></li>
+        <li><a href="reservation_register.jsp">Reservations</a></li>
         <li><a href="table_register.jsp">Tables</a></li>
         <li><a href="inquiry_register.jsp">Inquiries</a></li>
         <li><a href="payment_register.jsp">Payments</a></li>
         <li><a href="feedback_register.jsp">Feedback</a></li>
         <li><a href="admin_login.jsp">Admin Dashboard</a></li>
+        <li><a href="listCustomers" class="active">Customers</a></li>
       </ul>
     </div>
     <div class="content-container">
-      <h2>Reservation Registered Successfully!</h2>
-      <p>Your reservation has been added to the system.</p>
+      <h2>All Customers</h2>
+      <% if (request.getAttribute("error") != null) { %>
+      <div class="error-message"><%= request.getAttribute("error") %></div>
+      <% } %>
       <div>
-        <a href="reservation_register.jsp" class="btn btn-primary">Add Another Reservation</a>
-        <a href="reservation_list.jsp" class="btn btn-secondary">View All Reservations</a>
+        <a href="user_register.jsp" class="btn btn-primary">Add New Customer</a>
       </div>
+      <% Customer[] customers = (Customer[]) request.getAttribute("customers"); %>
+      <% if (customers != null && customers.length > 0) { %>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Customer ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Full Name</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (Customer customer : customers) { %>
+        <tr>
+          <td><%= customer.getCustomerId() %></td>
+          <td><%= customer.getUsername() %></td>
+          <td><%= customer.getEmail() %></td>
+          <td><%= customer.getFullName() %></td>
+          <td><%= customer.getPhone() %></td>
+          <td>
+            <a href="user_profile.jsp?customerId=<%= customer.getCustomerId() %>" class="btn btn-warning">Edit</a>
+            <form action="deleteCustomer" method="post" style="display:inline;">
+              <input type="hidden" name="customerId" value="<%= customer.getCustomerId() %>">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% } %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <p>No customers found.</p>
+      <% } %>
     </div>
   </div>
 </div>

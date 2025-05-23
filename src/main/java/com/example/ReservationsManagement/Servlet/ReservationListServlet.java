@@ -2,6 +2,7 @@ package com.example.ReservationsManagement.Servlet;
 
 import com.example.UserManagement.models.Customer;
 import com.example.ReservationsManagement.Reservation;
+import com.example.ReservationsManagement.MergeSortReservations; // Import MergeSort
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,7 +23,12 @@ public class ReservationListServlet extends HttpServlet {
         }
 
         List<Reservation> reservations = FileHandler.readReservations();
-        request.setAttribute("reservations", reservations);
+        // Convert List to array for Merge Sort
+        Reservation[] reservationArray = reservations.toArray(new Reservation[0]);
+        // Sort using Merge Sort
+        MergeSortReservations.sortReservations(reservationArray);
+        // Set sorted array as request attribute
+        request.setAttribute("reservations", reservationArray);
         request.getRequestDispatcher("reservation_list.jsp").forward(request, response);
     }
 }

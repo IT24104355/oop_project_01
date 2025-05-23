@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +21,39 @@
       --light: #f5f5f5;        /* Light gray */
       --dark: #333;            /* Dark gray */
       --highlight: #f8d7a3;    /* Light beige */
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+      background-image: linear-gradient(rgba(26, 46, 53, 0.7), rgba(26, 46, 53, 0.7)),
+      url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .main-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 600px;
+      margin: 2rem auto;
+      overflow: hidden;
     }
 
     .logo {
@@ -78,7 +110,85 @@
       background-color: var(--secondary);
     }
 
+    .error-message {
+      color: #e74c3c;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 0.75rem;
+      background-color: #f8d7da;
+      border-radius: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .btn-primary {
+      background-color: var(--secondary);
+      color: white;
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary:hover {
+      background-color: #c56a20;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+
     @media (max-width: 480px) {
+      .main-container {
+        margin: 1rem;
+        max-width: 100%;
+      }
+
       .nav-tabs ul {
         gap: 0.5rem;
       }
@@ -90,9 +200,9 @@
     }
   </style>
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-  <div class="card shadow-sm">
+<body>
+<div class="container">
+  <div class="main-container">
     <div class="logo">Prime<span>Table</span></div>
     <div class="nav-tabs">
       <ul>
@@ -104,35 +214,35 @@
         <li><a href="admin_login.jsp">Admin Dashboard</a></li>
       </ul>
     </div>
-    <div class="card-body">
+    <div class="card-body p-4">
       <h2 class="text-center mb-4">Register New Reservation</h2>
-      <c:if test="${not empty error}">
-        <div class="alert alert-danger">${error}</div>
-      </c:if>
-      <form action="registerReservation" method="post" class="p-4">
-        <div class="mb-3">
-          <label for="customerId" class="form-label">Customer ID</label>
+      <% if (request.getAttribute("error") != null) { %>
+      <div class="error-message"><%= request.getAttribute("error") %></div>
+      <% } %>
+      <form action="registerReservation" method="post">
+        <div class="form-group">
+          <label for="customerId">Customer ID</label>
           <input type="number" class="form-control" id="customerId" name="customerId" required>
         </div>
-        <div class="mb-3">
-          <label for="tableId" class="form-label">Table ID</label>
+        <div class="form-group">
+          <label for="tableId">Table ID</label>
           <input type="number" class="form-control" id="tableId" name="tableId" required>
         </div>
-        <div class="mb-3">
-          <label for="reservationDateTime" class="form-label">Reservation Date & Time</label>
+        <div class="form-group">
+          <label for="reservationDateTime">Reservation Date & Time</label>
           <input type="datetime-local" class="form-control" id="reservationDateTime" name="reservationDateTime" required>
         </div>
-        <div class="mb-3">
-          <label for="status" class="form-label">Status</label>
-          <select class="form-select" id="status" name="status" required>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select class="form-control" id="status" name="status" required>
             <option value="confirmed">Confirmed</option>
             <option value="pending">Pending</option>
             <option value="cancelled">Cancelled</option>
           </select>
         </div>
-        <div class="mb-3">
-          <label for="reservationType" class="form-label">Reservation Type</label>
-          <select class="form-select" id="reservationType" name="reservationType" required>
+        <div class="form-group">
+          <label for="reservationType">Reservation Type</label>
+          <select class="form-control" id="reservationType" name="reservationType" required>
             <option value="Individual">Individual</option>
             <option value="Group">Group</option>
           </select>
