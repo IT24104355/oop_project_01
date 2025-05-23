@@ -10,7 +10,7 @@ public class FileHandler {
     private static final String CUSTOMERS_FILE = "C:\\Users\\DASUNI THIWANSHIKA\\OneDrive\\Desktop\\final-OOP\\demo\\src\\main\\webapp\\data\\customers.txt";
     private static final String TABLES_FILE = "C:\\Users\\DASUNI THIWANSHIKA\\OneDrive\\Desktop\\final-OOP\\demo\\src\\main\\webapp\\data\\tables.txt";
 
-    // Generate a unique customer ID
+    // Generate a unique customer id
     public static synchronized int generateCustomerId() throws IOException {
         List<Customer> customers = readCustomers();
         if (customers.isEmpty()) {
